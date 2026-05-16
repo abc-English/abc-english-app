@@ -1,0 +1,96 @@
+{
+  "name": "ABC English - The American British Center",
+  "short_name": "ABC English",
+  "description": "منصّة تعليم اللغة الإنجليزية الاحترافية — دروس تفاعلية، مسابقات، اختبارات، ومجتمع طلاب نشط. تعلّم الإنجليزية مع المركز الأميركي البريطاني.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#3b82f6",
+  "theme_color": "#3b82f6",
+  "lang": "ar",
+  "dir": "rtl",
+  "categories": ["education", "productivity"],
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "https://i.ibb.co/p6PKXBTn/IMG-20260506-141154.jpg",
+      "sizes": "72x72",
+      "type": "image/jpeg",
+      "purpose": "any"
+    },
+    {
+      "src": "https://i.ibb.co/p6PKXBTn/IMG-20260506-141154.jpg",
+      "sizes": "96x96",
+      "type": "image/jpeg",
+      "purpose": "any"
+    },
+    {
+      "src": "https://i.ibb.co/p6PKXBTn/IMG-20260506-141154.jpg",
+      "sizes": "128x128",
+      "type": "image/jpeg",
+      "purpose": "any"
+    },
+    {
+      "src": "https://i.ibb.co/p6PKXBTn/IMG-20260506-141154.jpg",
+      "sizes": "144x144",
+      "type": "image/jpeg",
+      "purpose": "any"
+    },
+    {
+      "src": "https://i.ibb.co/p6PKXBTn/IMG-20260506-141154.jpg",
+      "sizes": "152x152",
+      "type": "image/jpeg",
+      "purpose": "any"
+    },
+    {
+      "src": "https://i.ibb.co/p6PKXBTn/IMG-20260506-141154.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://i.ibb.co/p6PKXBTn/IMG-20260506-141154.jpg",
+      "sizes": "384x384",
+      "type": "image/jpeg",
+      "purpose": "any"
+    },
+    {
+      "src": "https://i.ibb.co/p6PKXBTn/IMG-20260506-141154.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://i.ibb.co/p6PKXBTn/IMG-20260506-141154.jpg",
+      "sizes": "1024x1024",
+      "type": "image/jpeg",
+      "purpose": "any"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "https://i.ibb.co/p6PKXBTn/IMG-20260506-141154.jpg",
+      "sizes": "540x720",
+      "type": "image/jpeg",
+      "form_factor": "narrow",
+      "label": "ABC English Home Screen"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "الوحدات الدراسية",
+      "short_name": "الوحدات",
+      "description": "ابدأ الدراسة في الوحدات التعليمية",
+      "url": "/?section=books",
+      "icons": [{ "src": "https://i.ibb.co/p6PKXBTn/IMG-20260506-141154.jpg", "sizes": "96x96", "type": "image/jpeg" }]
+    },
+    {
+      "name": "الأخبار والإعلانات",
+      "short_name": "الأخبار",
+      "description": "آخر الأخبار والإعلانات",
+      "url": "/?section=news",
+      "icons": [{ "src": "https://i.ibb.co/p6PKXBTn/IMG-20260506-141154.jpg", "sizes": "96x96", "type": "image/jpeg" }]
+    }
+  ]
+}
