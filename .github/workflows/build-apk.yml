@@ -17,7 +17,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'npm'
 
       - name: Setup Java JDK
         uses: actions/setup-java@v4
@@ -61,11 +60,11 @@ jobs:
           tag_name: v1.0.${{ github.run_number }}
           name: ABC English v1.0.${{ github.run_number }}
           body: |
-            ## 📱 ABC English Android App
+            ## ABC English Android App
 
-            *Build #${{ github.run_number }}*
+            Build #${{ github.run_number }}
 
-            ### 📥 Installation
+            ### Installation
             1. Download app-debug.apk below
             2. Transfer to your Android phone
             3. Open the file and install
