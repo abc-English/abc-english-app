@@ -440,6 +440,26 @@ body{background:var(--bg);min-height:100vh;overflow-x:hidden;transition:backgrou
 .dw-title{font-size:.88rem;font-weight:800;}
 .dw-sub{font-size:.7rem;opacity:.88;margin-top:1px;}
 
+/* ═══ Force Notification Gate (شاشة قفل إجباري) ═══ */
+.force-notif-gate{position:fixed;inset:0;background:linear-gradient(135deg,#1e3a8a 0%,#3b82f6 50%,#60a5fa 100%);z-index:99999;display:flex;align-items:center;justify-content:center;padding:20px;animation:fngFadeIn .35s ease;font-family:'Cairo',sans-serif;}
+@keyframes fngFadeIn{from{opacity:0;}to{opacity:1;}}
+.fng-card{background:#fff;border-radius:24px;padding:32px 26px 26px;max-width:420px;width:100%;text-align:center;box-shadow:0 25px 60px rgba(0,0,0,.4);animation:fngSlideUp .45s cubic-bezier(.34,1.56,.64,1);}
+@keyframes fngSlideUp{from{transform:translateY(30px);opacity:0;}to{transform:translateY(0);opacity:1;}}
+.fng-icon-wrap{position:relative;width:88px;height:88px;border-radius:50%;background:linear-gradient(135deg,#3b82f6,#1d4ed8);margin:0 auto 18px;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 30px rgba(59,130,246,.5);}
+.fng-icon-pulse{position:absolute;inset:-8px;border-radius:50%;background:rgba(59,130,246,.3);animation:fngPulse 1.8s ease-in-out infinite;}
+@keyframes fngPulse{0%,100%{transform:scale(1);opacity:.7;}50%{transform:scale(1.15);opacity:.2;}}
+.fng-title{font-size:1.25rem;font-weight:900;color:#0f172a;margin-bottom:10px;line-height:1.4;}
+.fng-desc{font-size:.88rem;color:#475569;line-height:1.65;margin-bottom:18px;font-weight:500;}
+.fng-features{display:flex;flex-direction:column;gap:8px;margin-bottom:22px;background:#f1f5f9;border-radius:14px;padding:14px;}
+.fng-feature{display:flex;align-items:center;gap:10px;font-size:.84rem;color:#1e293b;font-weight:700;text-align:right;}
+[dir="ltr"] .fng-feature{text-align:left;}
+.fng-emoji{font-size:1.25rem;}
+.fng-btn-enable{width:100%;background:linear-gradient(135deg,#dc2626 0%,#b91c1c 100%);color:#fff;border:none;border-radius:14px;padding:16px 18px;font-size:1rem;font-weight:900;cursor:pointer;font-family:'Cairo',sans-serif;display:flex;align-items:center;justify-content:center;gap:9px;box-shadow:0 8px 22px rgba(220,38,38,.45);transition:transform .15s,box-shadow .15s;letter-spacing:.3px;animation:fngBtnPulse 2s ease-in-out infinite;}
+@keyframes fngBtnPulse{0%,100%{box-shadow:0 8px 22px rgba(220,38,38,.45);}50%{box-shadow:0 12px 30px rgba(220,38,38,.65);}}
+.fng-btn-enable:active{transform:scale(.96);}
+.fng-btn-enable:disabled{cursor:not-allowed;animation:none;}
+.fng-note{margin-top:14px;font-size:.7rem;color:#64748b;font-weight:600;}
+
 /* ═══ Big Director Card (above social media) ═══ */
 .big-director-card{background:linear-gradient(160deg,#eef2ff 0%,#e0e7ff 100%);border:1.5px solid #c7d2fe;border-radius:18px;padding:18px 16px 16px;margin-bottom:6px;text-align:center;box-shadow:0 6px 20px rgba(67,56,202,.12);}
 .big-director-avatar{width:96px;height:96px;border-radius:50%;background:#fff;overflow:hidden;margin:0 auto 10px;border:4px solid #fff;box-shadow:0 8px 24px rgba(67,56,202,.32),0 0 0 3px #4338ca;}
@@ -4891,29 +4911,29 @@ function requestNotifPermission(){
 
 // طلب الإذن أول مرة عند فتح التطبيق
 function ensureNotifPermissionOnStart(){
+  // إن كان داخل تطبيق Capacitor، استخدم Capacitor Push Notifications
+  if(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform()){
+    setupCapacitorPush();
+    return;
+  }
+  // وإلا (متصفح ويب) استخدم Web Notifications + FCM Web
   if(!('Notification' in window)) return;
-  // ننتظر إيماءة مستخدم لأن Chrome يرفض requestPermission بدونها
   try {
-    // حتى لو سُئل من قبل، نُحاول الحصول على FCM token
     if(localStorage.getItem('abc_notif_asked') === '1'){
       if(Notification.permission === 'granted'){
-        // المستخدم مأذون بالفعل، فقط حدّث الـ token
         if(typeof setupFCMForStudent === 'function') setupFCMForStudent();
       }
       return;
     }
   } catch(_){}
-  // اسأل عند أول نقرة أو ضغطة
   function ask(){
     document.removeEventListener('click', ask);
     document.removeEventListener('touchstart', ask);
     requestNotifPermission().then(function(perm){
       try { localStorage.setItem('abc_notif_asked', '1'); } catch(_){}
       if(perm === 'granted'){
-        // افتح AudioContext (يحتاج إيماءة مستخدم)
         getAudioCtx();
         showToast(lang==='en' ? '🔔 Notifications enabled' : '🔔 تم تفعيل الإشعارات','ok',2500);
-        // فعّل FCM (Service Worker + Token)
         if(typeof setupFCMForStudent === 'function'){
           setupFCMForStudent().then(function(token){
             if(token){
@@ -4930,6 +4950,230 @@ function ensureNotifPermissionOnStart(){
     document.addEventListener('click', ask, { once:true, passive:true });
     document.addEventListener('touchstart', ask, { once:true, passive:true });
   }, 2000);
+}
+
+/* ══════════════════════════════════════════════════
+   Capacitor Push Notifications (للتطبيق الـ Native)
+══════════════════════════════════════════════════ */
+var _capacitorPushReady = false;
+
+async function setupCapacitorPush(){
+  if(_capacitorPushReady) return;
+  try {
+    var PushNotifications = window.Capacitor.Plugins.PushNotifications;
+    if(!PushNotifications){
+      console.warn('[Capacitor] PushNotifications plugin not available');
+      return;
+    }
+    // اطلب الإذن
+    var permResult = await PushNotifications.requestPermissions();
+    if(permResult.receive !== 'granted'){
+      console.log('[Capacitor] الإذن مرفوض:', permResult.receive);
+      showForceNotifGate();
+      return;
+    }
+    // سجّل الجهاز
+    await PushNotifications.register();
+    // استمع لحدث الحصول على Token
+    PushNotifications.addListener('registration', function(token){
+      console.log('[Capacitor FCM Token]:', token.value.substring(0,30)+'...');
+      if(currentStudentKey){
+        var tokenKey = token.value.replace(/[.\/#$\[\]]/g, '_');
+        var updates = {};
+        updates['students/'+currentStudentKey+'/fcmToken'] = token.value;
+        updates['students/'+currentStudentKey+'/fcmTokenUpdated'] = Date.now();
+        updates['students/'+currentStudentKey+'/fcmPlatform'] = 'android';
+        updates['fcmTokens/'+tokenKey] = {
+          token: token.value,
+          studentKey: currentStudentKey,
+          studentName: (userData && userData.name) || '',
+          roomId: (userData && userData.roomId) || '',
+          platform: 'android',
+          addedAt: Date.now()
+        };
+        db.ref().update(updates).catch(function(e){
+          console.warn('[Capacitor] خطأ في حفظ التوكن:', e.message);
+        });
+      }
+    });
+    // خطأ في التسجيل
+    PushNotifications.addListener('registrationError', function(err){
+      console.error('[Capacitor] فشل التسجيل:', err);
+    });
+    // وصول إشعار والتطبيق مفتوح
+    PushNotifications.addListener('pushNotificationReceived', function(notification){
+      console.log('[Capacitor] إشعار وصل (التطبيق مفتوح):', notification);
+      try {
+        if(typeof playStrongNotificationSound === 'function') playStrongNotificationSound();
+        if(navigator.vibrate) navigator.vibrate([300, 100, 300, 100, 500]);
+      } catch(_){}
+      var title = notification.title || '📢 ABC';
+      var body = notification.body || '';
+      if(typeof showToast === 'function'){
+        showToast(title+(body?': '+body:''), 'ok', 7000);
+      }
+    });
+    // المستخدم نقر على الإشعار
+    PushNotifications.addListener('pushNotificationActionPerformed', function(action){
+      console.log('[Capacitor] نقرة على إشعار:', action);
+    });
+    _capacitorPushReady = true;
+    console.log('[Capacitor] Push Notifications جاهزة ✓');
+    // أخفي شاشة القفل لو كانت ظاهرة
+    hideForceNotifGate();
+  } catch(e){
+    console.error('[Capacitor] خطأ:', e);
+    showForceNotifGate();
+  }
+}
+
+/* ══════════════════════════════════════════════════
+   شاشة قفل إجباري للإشعارات
+   لا يمكن استخدام التطبيق إلا بعد تفعيل الإشعارات
+══════════════════════════════════════════════════ */
+function showForceNotifGate(){
+  if(document.getElementById('forceNotifGate')) return;
+  var isEn = (lang === 'en');
+  var gate = document.createElement('div');
+  gate.id = 'forceNotifGate';
+  gate.className = 'force-notif-gate';
+  gate.innerHTML =
+    '<div class="fng-card">'+
+      '<div class="fng-icon-wrap">'+
+        '<div class="fng-icon-pulse"></div>'+
+        '<svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="position:relative;z-index:2;">'+
+          '<path d="M6 8a6 6 0 0112 0c0 7 3 9 3 9H3s3-2 3-9"/>'+
+          '<path d="M10 21a2 2 0 004 0"/>'+
+        '</svg>'+
+      '</div>'+
+      '<div class="fng-title">'+(isEn?'Notifications are Required':'الإشعارات مطلوبة لاستخدام التطبيق')+'</div>'+
+      '<div class="fng-desc">'+
+        (isEn
+          ? 'ABC English requires notifications to deliver lesson reminders, exam alerts, and important announcements from your teacher.'
+          : 'يتطلّب تطبيق ABC English تفعيل الإشعارات لتلقّي تذكيرات الدروس، تنبيهات الامتحانات، والإعلانات المهمّة من المعلم.')+
+      '</div>'+
+      '<div class="fng-features">'+
+        '<div class="fng-feature"><span class="fng-emoji">⏰</span>'+(isEn?'Daily lesson reminders':'تذكيرات الدروس اليومية')+'</div>'+
+        '<div class="fng-feature"><span class="fng-emoji">📢</span>'+(isEn?'Important announcements':'الإعلانات المهمّة من المعلم')+'</div>'+
+        '<div class="fng-feature"><span class="fng-emoji">🏆</span>'+(isEn?'Exam results & ranking':'نتائج الامتحانات والترتيب')+'</div>'+
+      '</div>'+
+      '<button class="fng-btn-enable" onclick="enableNotificationsFromGate()">'+
+        '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 8a6 6 0 0112 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10 21a2 2 0 004 0"/></svg>'+
+        '<span>'+(isEn?'Enable Notifications Now':'فعّل الإشعارات الآن')+'</span>'+
+      '</button>'+
+      '<div class="fng-note">'+(isEn?'You can change this later in your phone settings':'يمكنك تعديل الإذن لاحقاً من إعدادات الهاتف')+'</div>'+
+    '</div>';
+  document.body.appendChild(gate);
+  // منع التمرير في الخلفية
+  document.body.style.overflow = 'hidden';
+}
+
+function hideForceNotifGate(){
+  var g = document.getElementById('forceNotifGate');
+  if(g){
+    g.style.opacity = '0';
+    setTimeout(function(){
+      if(g.parentNode) g.parentNode.removeChild(g);
+      document.body.style.overflow = '';
+    }, 300);
+  }
+}
+
+async function enableNotificationsFromGate(){
+  var btn = document.querySelector('.fng-btn-enable');
+  if(btn){ btn.disabled = true; btn.style.opacity = '.6'; }
+  // إن كان داخل تطبيق Native
+  if(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform()){
+    try {
+      var PushNotifications = window.Capacitor.Plugins.PushNotifications;
+      var permResult = await PushNotifications.requestPermissions();
+      if(permResult.receive === 'granted'){
+        hideForceNotifGate();
+        setupCapacitorPush();
+        if(typeof showToast === 'function') showToast(lang==='en'?'✓ Notifications enabled!':'✓ تم تفعيل الإشعارات!','ok',3500);
+      } else {
+        // المستخدم رفض - اعرض رسالة قوية
+        if(btn){ btn.disabled = false; btn.style.opacity = '1'; }
+        var msg = lang==='en'
+          ? 'Notifications are required to use this app. Please enable them from your phone Settings > Apps > ABC English > Notifications.'
+          : 'الإشعارات مطلوبة لاستخدام التطبيق. الرجاء تفعيلها من: إعدادات الهاتف > التطبيقات > ABC English > الإشعارات.';
+        alert(msg);
+      }
+    } catch(e){
+      console.error('Enable error:', e);
+      if(btn){ btn.disabled = false; btn.style.opacity = '1'; }
+    }
+  } else {
+    // متصفح ويب
+    if(!('Notification' in window)){
+      alert(lang==='en'?'Your browser does not support notifications':'متصفحك لا يدعم الإشعارات');
+      return;
+    }
+    var perm = await Notification.requestPermission();
+    if(perm === 'granted'){
+      hideForceNotifGate();
+      if(typeof setupFCMForStudent === 'function') setupFCMForStudent();
+      if(typeof showToast === 'function') showToast(lang==='en'?'✓ Notifications enabled!':'✓ تم تفعيل الإشعارات!','ok',3500);
+    } else {
+      if(btn){ btn.disabled = false; btn.style.opacity = '1'; }
+    }
+  }
+}
+
+/* صوت إشعار قوي وواضح */
+function playStrongNotificationSound(){
+  try {
+    var ctx = getAudioCtx();
+    if(!ctx) return;
+    // نغمة من 3 ضربات متتالية بترددات مختلفة (قوية وملفتة)
+    var notes = [
+      { freq: 880, dur: 0.18, delay: 0 },     // A5
+      { freq: 1175, dur: 0.18, delay: 0.20 }, // D6
+      { freq: 1568, dur: 0.30, delay: 0.40 }  // G6
+    ];
+    notes.forEach(function(n){
+      var osc = ctx.createOscillator();
+      var gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.value = n.freq;
+      gain.gain.setValueAtTime(0, ctx.currentTime + n.delay);
+      gain.gain.linearRampToValueAtTime(0.45, ctx.currentTime + n.delay + 0.02);
+      gain.gain.linearRampToValueAtTime(0, ctx.currentTime + n.delay + n.dur);
+      osc.connect(gain).connect(ctx.destination);
+      osc.start(ctx.currentTime + n.delay);
+      osc.stop(ctx.currentTime + n.delay + n.dur + 0.05);
+    });
+  } catch(e){ console.warn('Sound error:', e); }
+}
+
+/* فحص إجباري عند فتح الصفحة الرئيسية */
+async function checkForceNotifGateOnMain(){
+  // داخل تطبيق Capacitor: تحقق من إذن PushNotifications
+  if(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform()){
+    try {
+      var PushNotifications = window.Capacitor.Plugins.PushNotifications;
+      if(!PushNotifications) return;
+      var perm = await PushNotifications.checkPermissions();
+      if(perm.receive !== 'granted'){
+        showForceNotifGate();
+      } else {
+        // الإذن موجود، فعّل النظام
+        setupCapacitorPush();
+      }
+    } catch(e){ console.warn('checkForce error:', e); }
+    return;
+  }
+  // متصفح ويب: تحقق من Notification.permission
+  if('Notification' in window){
+    if(Notification.permission === 'denied'){
+      showForceNotifGate();
+    } else if(Notification.permission === 'default'){
+      // لم يُسأل بعد - اعرض الشاشة بعد ثانية
+      setTimeout(function(){ showForceNotifGate(); }, 1200);
+    } else if(Notification.permission === 'granted'){
+      if(typeof setupFCMForStudent === 'function') setupFCMForStudent();
+    }
+  }
 }
 
 function fireStudyReminder(){
@@ -5661,6 +5905,9 @@ function showMain(){
   document.getElementById('regPage').classList.remove('active');
   document.getElementById('adminPage').classList.remove('active');
   document.getElementById('mainPage').classList.add('active');
+
+  // ✚ فحص فوري لإذن الإشعارات (إجباري)
+  setTimeout(function(){ checkForceNotifGateOnMain(); }, 500);
 
   // ملء بيانات البروفايل
   document.getElementById('profileName').textContent = userData.name || '';
