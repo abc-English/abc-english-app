@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "505266753396",
+    "firebase_url": "https://english-test-ca3b4-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "english-test-ca3b4",
+    "storage_bucket": "english-test-ca3b4.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:505266753396:android:a0d387e5cfe5a48e47e621",
+        "android_client_info": {
+          "package_name": "com.abc.english"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCp9QRo7SHhK8KS6ukfhKy22P2Pifu6tB4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
