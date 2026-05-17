@@ -5,6 +5,9 @@ on:
     branches: [ main, master ]
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -32,10 +35,33 @@ jobs:
           accept-android-sdk-licenses: true
 
       - name: Install dependencies
-        run: npm install
+        run: |
+          npm install
+          npm install --save-dev @capacitor/assets
 
       - name: Add Android platform
         run: npx cap add android || echo "Android already exists"
+
+      - name: Generate icons and splash
+        if: hashFiles('resources/icon.png') != ''
+        run: npx capacitor-assets generate --android --iconBackgroundColor "#3b82f6" --splashBackgroundColor "#3b82f6"
+
+      - name: Copy google-services.json
+        run: |
+          mkdir -p android/app
+          cp google-services.json android/app/google-services.json
+
+      - name: Add google-services plugin
+        run: |
+          # Add classpath to project-level build.gradle
+          if ! grep -q "google-services" android/build.gradle; then
+            sed -i "/dependencies {/a\\        classpath 'com.google.gms:google-services:4.4.2'" android/build.gradle
+          fi
+          # Apply plugin in app-level build.gradle
+          if ! grep -q "google-services" android/app/build.gradle; then
+            echo "" >> android/app/build.gradle
+            echo "apply plugin: 'com.google.gms.google-services'" >> android/app/build.gradle
+          fi
 
       - name: Copy web assets
         run: npx cap copy android
@@ -66,12 +92,19 @@ jobs:
           body: |
             ## ABC English Android App
 
-            Build number ${{ github.run_number }}
+            Build number ${{ github.run_number }} - With Push Notifications!
 
-            ### Installation steps
+            ### Installation
             1. Download app-debug.apk below
             2. Transfer to your Android phone
             3. Open the file and install
+            4. Open the app and grant notification permission
+
+            ### Features
+            - Push notifications work even when phone is locked
+            - Strong sound and vibration
+            - Lesson reminders
+            - Announcements from teacher
           files: android/app/build/outputs/apk/debug/app-debug.apk
           draft: false
           prerelease: false
