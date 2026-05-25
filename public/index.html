@@ -6974,48 +6974,117 @@ function _gmailToKey(email){
 }
 
 // نقطة الدخول الرئيسية — يضغطها الطالب
+// تستخدم popup على الكمبيوتر و redirect على الموبايل (أكثر استقراراً)
 function signInWithGoogle(){
   if(_gauthBusy) return;
   _gauthBusy = true;
   SND.click && SND.click();
   showToast('جاري الاتصال بـ Google...','ok',2500);
 
-  fbAuth.signInWithPopup(googleProvider).then(function(result){
-    _gauthBusy = false;
-    var user = result.user;
-    if(!user || !user.email){
-      showToast('تعذّر الحصول على بريد Google','err',4000);
-      return;
-    }
-    var googleData = {
-      email: user.email,
-      uid: user.uid,
-      displayName: user.displayName || '',
-      photoURL: user.photoURL || ''
-    };
-    // ابحث عن أيّ طالب مرتبط بهذا الإيميل
-    _findStudentByGmail(googleData.email, function(existingKey, existingData){
-      if(existingKey){
-        // ★ الحساب مرتبط مسبقاً → دخول مباشر ★
-        _loginViaLinkedGmail(existingKey, existingData, googleData);
-        return;
-      }
-      // ★ لا حساب مرتبط بهذا Gmail بعد → اسأل الطالب ★
-      _pendingGoogleData = googleData;
-      _showGoogleLinkChoice(googleData);
+  // ★ اكتشف نوع الجهاز ★
+  var ua = navigator.userAgent || '';
+  var isMobile = /Mobi|Android|iPhone|iPad|iPod|Opera Mini|IEMobile/i.test(ua);
+  var isWebView = /wv|WebView/i.test(ua) || (/Android/i.test(ua) && !/Chrome/i.test(ua));
+
+  // على الموبايل/WebView → redirect مباشرة (أكثر استقراراً)
+  if(isMobile || isWebView){
+    try {
+      // احفظ علامة أنّنا في انتظار العودة من Google
+      sessionStorage.setItem('abc_google_redirecting', '1');
+    } catch(_){}
+    fbAuth.signInWithRedirect(googleProvider).catch(function(err){
+      _gauthBusy = false;
+      try { sessionStorage.removeItem('abc_google_redirecting'); } catch(_){}
+      console.error('Redirect error:', err);
+      showToast('تعذّر الاتصال بـ Google: '+(err.message||''),'err',5000);
     });
+    return;
+  }
+
+  // على الكمبيوتر → جرّب popup أولاً
+  fbAuth.signInWithPopup(googleProvider).then(function(result){
+    _handleGoogleSignInResult(result);
   }).catch(function(err){
     _gauthBusy = false;
+    console.error('Popup error:', err.code, err.message);
     if(err.code === 'auth/popup-closed-by-user' || err.code === 'auth/cancelled-popup-request'){
       // أغلق المستخدم النافذة بنفسه — لا حاجة لرسالة خطأ مزعجة
       return;
     }
-    if(err.code === 'auth/popup-blocked'){
-      showToast('المتصفّح حجب نافذة Google. يرجى السماح بالنوافذ المنبثقة','err',5000);
+    // فشل popup → جرّب redirect كاحتياط (popup blocked, internal error, etc.)
+    if(err.code === 'auth/popup-blocked'
+       || err.code === 'auth/internal-error'
+       || err.code === 'auth/web-storage-unsupported'
+       || err.code === 'auth/operation-not-supported-in-this-environment'){
+      showToast('جاري التحويل إلى Google...','ok',2000);
+      try { sessionStorage.setItem('abc_google_redirecting', '1'); } catch(_){}
+      fbAuth.signInWithRedirect(googleProvider).catch(function(e2){
+        showToast('تعذّر الاتصال بـ Google: '+(e2.message||''),'err',5000);
+      });
       return;
     }
-    console.error('Google sign-in error:', err);
     showToast('تعذّر تسجيل الدخول: '+(err.message||'خطأ غير معروف'),'err',5000);
+  });
+}
+
+// ★ معالجة نتيجة الدخول (من popup أو redirect) — نفس المنطق لكليهما ★
+function _handleGoogleSignInResult(result){
+  _gauthBusy = false;
+  if(!result || !result.user){
+    return; // لا نتيجة (مستخدم لم يكمل)
+  }
+  var user = result.user;
+  if(!user.email){
+    showToast('تعذّر الحصول على بريد Google','err',4000);
+    return;
+  }
+  var googleData = {
+    email: user.email,
+    uid: user.uid,
+    displayName: user.displayName || '',
+    photoURL: user.photoURL || ''
+  };
+  showToast('تمّ تأكيد '+user.email+' ✓','ok',2500);
+  // ابحث عن أيّ طالب مرتبط بهذا الإيميل
+  _findStudentByGmail(googleData.email, function(existingKey, existingData){
+    if(existingKey){
+      _loginViaLinkedGmail(existingKey, existingData, googleData);
+      return;
+    }
+    _pendingGoogleData = googleData;
+    _showGoogleLinkChoice(googleData);
+  });
+}
+
+// ★ يُستدعى عند تحميل الصفحة — يفحص إن كنّا عائدين من redirect ★
+function checkGoogleRedirectResult(){
+  // لو لم نكن في حالة redirect، لا فائدة من الفحص
+  var wasRedirecting = false;
+  try { wasRedirecting = (sessionStorage.getItem('abc_google_redirecting') === '1'); } catch(_){}
+  fbAuth.getRedirectResult().then(function(result){
+    try { sessionStorage.removeItem('abc_google_redirecting'); } catch(_){}
+    if(result && result.user){
+      _handleGoogleSignInResult(result);
+    } else if(wasRedirecting){
+      // كنّا في انتظار عودة، لكن النتيجة فارغة (المستخدم ربما ألغى)
+      console.log('Redirect returned without user');
+    }
+  }).catch(function(err){
+    try { sessionStorage.removeItem('abc_google_redirecting'); } catch(_){}
+    console.error('Redirect result error:', err);
+    if(err.code === 'auth/account-exists-with-different-credential'){
+      showToast('هذا الإيميل مرتبط بطريقة دخول مختلفة','err',5000);
+    } else if(err.code && err.code !== 'auth/null-user' && err.code !== 'auth/no-auth-event'){
+      showToast('خطأ من Google: '+(err.message||err.code||''),'err',5000);
+    }
+  });
+}
+
+// نفّذ الفحص فور تحميل الصفحة (بعد تهيئة Firebase)
+if(typeof window !== 'undefined'){
+  window.addEventListener('DOMContentLoaded', function(){
+    // أعطِ الـ DOM لحظة للجاهزية ثم افحص
+    setTimeout(checkGoogleRedirectResult, 300);
   });
 }
 
@@ -7439,22 +7508,29 @@ function _offerLinkLater(){
 }
 
 function _offerLinkExisting(){
-  // المستخدم وافق — افتح Google popup
+  // المستخدم وافق — افتح Google popup أو redirect
   var ov = document.getElementById('offerLinkGmailOv');
   if(ov) ov.remove();
   if(!currentStudentKey){ return; }
   var existingKey = currentStudentKey;
-  var existingData = userData;
   if(_gauthBusy) return;
   _gauthBusy = true;
   showToast('جاري الاتصال بـ Google...','ok',2500);
-  fbAuth.signInWithPopup(googleProvider).then(function(result){
+
+  var ua = navigator.userAgent || '';
+  var isMobile = /Mobi|Android|iPhone|iPad|iPod|Opera Mini|IEMobile/i.test(ua);
+
+  // احفظ نية "ربط بحساب موجود" لكي نُعالج نتيجة redirect بشكل خاصّ
+  try {
+    sessionStorage.setItem('abc_google_linking_to', existingKey);
+  } catch(_){}
+
+  function processLink(result){
     _gauthBusy = false;
-    var user = result.user;
-    if(!user || !user.email){ showToast('تعذّر الحصول على بريد Google','err'); return; }
+    if(!result || !result.user || !result.user.email){ return; }
     var googleData = {
-      email: user.email, uid: user.uid,
-      displayName: user.displayName || '', photoURL: user.photoURL || ''
+      email: result.user.email, uid: result.user.uid,
+      displayName: result.user.displayName || '', photoURL: result.user.photoURL || ''
     };
     // تأكّد أنّ Gmail ليس مرتبطاً بحساب آخر
     _findStudentByGmail(googleData.email, function(otherKey){
@@ -7474,18 +7550,37 @@ function _offerLinkExisting(){
       updates['students/'+existingKey+'/gmailLastLoginAt'] = Date.now();
       updates['gmailToStudent/'+gmailKey] = existingKey;
       db.ref().update(updates).then(function(){
-        userData.gmail = googleData.email;
-        userData.gmailVerified = true;
-        userData.gmailPhoto = googleData.photoURL || '';
-        save(); SND.success();
+        if(userData){
+          userData.gmail = googleData.email;
+          userData.gmailVerified = true;
+          userData.gmailPhoto = googleData.photoURL || '';
+          save();
+        }
+        SND.success();
         showToast('✓ تمّ ربط Google بحسابك بنجاح','ok',3500);
       }).catch(function(e){
         showToast('تعذّر الربط: '+e.message,'err',5000);
       });
     });
-  }).catch(function(err){
+  }
+
+  if(isMobile){
+    try { sessionStorage.setItem('abc_google_redirecting', '1'); } catch(_){}
+    fbAuth.signInWithRedirect(googleProvider).catch(function(err){
+      _gauthBusy = false;
+      try { sessionStorage.removeItem('abc_google_redirecting'); } catch(_){}
+      showToast('تعذّر الاتصال: '+(err.message||''),'err',4000);
+    });
+    return;
+  }
+  fbAuth.signInWithPopup(googleProvider).then(processLink).catch(function(err){
     _gauthBusy = false;
     if(err.code === 'auth/popup-closed-by-user' || err.code === 'auth/cancelled-popup-request') return;
+    if(err.code === 'auth/popup-blocked' || err.code === 'auth/internal-error'){
+      try { sessionStorage.setItem('abc_google_redirecting', '1'); } catch(_){}
+      fbAuth.signInWithRedirect(googleProvider);
+      return;
+    }
     showToast('تعذّر الاتصال: '+(err.message||''),'err',4000);
   });
 }
