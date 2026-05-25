@@ -776,38 +776,52 @@ body{background:var(--bg);min-height:100vh;overflow-x:hidden;transition:backgrou
       <div class="glass" style="border-radius:24px;padding:30px 26px;animation:fadeInUp .6s ease both .25s;opacity:0;">
         <h2 style="color:#fff;font-size:1.15rem;font-weight:800;text-align:center;margin-bottom:6px;">أهلاً بك 👋</h2>
         <p style="color:rgba(255,255,255,.6);font-size:.8rem;text-align:center;margin-bottom:24px;" id="regSubtitle">سجّل بياناتك للوصول إلى المحتوى التعليمي</p>
-        <!-- ★ زرّ الدخول بحساب Google (الطريقة المُفضّلة) ★ -->
-        <button type="button" id="googleSignInBtn" onclick="signInWithGoogle()" style="width:100%;background:#fff;color:#1f2937;border:none;border-radius:14px;padding:14px;font-size:.92rem;font-weight:800;cursor:pointer;font-family:'Cairo',sans-serif;display:flex;align-items:center;justify-content:center;gap:11px;box-shadow:0 4px 14px rgba(0,0,0,.25);transition:transform .15s;margin-bottom:13px;" onmouseover="this.style.transform='translateY(-1px)'" onmouseout="this.style.transform='translateY(0)'">
-          <svg width="22" height="22" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-            <path fill="#FFC107" d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 12.955 4 4 12.955 4 24s8.955 20 20 20 20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z"/>
-            <path fill="#FF3D00" d="M6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 16.318 4 9.656 8.337 6.306 14.691z"/>
-            <path fill="#4CAF50" d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238A11.91 11.91 0 0 1 24 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44z"/>
-            <path fill="#1976D2" d="M43.611 20.083H42V20H24v8h11.303a12.04 12.04 0 0 1-4.087 5.571l.003-.002 6.19 5.238C36.971 39.205 44 34 44 24c0-1.341-.138-2.65-.389-3.917z"/>
-          </svg>
-          <span>تسجيل الدخول بحساب Google</span>
-        </button>
-        <div style="display:flex;align-items:center;gap:10px;margin:6px 0 14px;color:rgba(255,255,255,.45);font-size:.72rem;font-weight:600;">
-          <div style="flex:1;height:1px;background:rgba(255,255,255,.2);"></div>
-          <span>أو</span>
-          <div style="flex:1;height:1px;background:rgba(255,255,255,.2);"></div>
-        </div>
         <form id="regForm" onsubmit="event.preventDefault();handleRegister();" autocomplete="on" action="javascript:void(0)" method="post">
-        <div style="margin-bottom:16px;">
-          <label for="regName" style="color:rgba(255,255,255,.8);font-size:.8rem;font-weight:700;display:block;margin-bottom:7px;" id="regNameLbl">الاسم الثلاثي</label>
+        <!-- ★ الاسم (مطلوب) ★ -->
+        <div style="margin-bottom:14px;">
+          <label for="regName" style="color:rgba(255,255,255,.85);font-size:.8rem;font-weight:700;display:block;margin-bottom:7px;" id="regNameLbl">الاسم الثلاثي <span style="color:#f87171;">*</span></label>
           <input type="text" id="regName" name="name" placeholder="مثال: محمد أحمد علي" class="inp" autocomplete="name" autocapitalize="words" required/>
         </div>
-        <div style="margin-bottom:16px;">
-          <label for="regPhone" style="color:rgba(255,255,255,.8);font-size:.8rem;font-weight:700;display:block;margin-bottom:7px;" id="regPhoneLbl">رقم الهاتف</label>
+        <!-- ★ رقم الهاتف (مطلوب) ★ -->
+        <div style="margin-bottom:14px;">
+          <label for="regPhone" style="color:rgba(255,255,255,.85);font-size:.8rem;font-weight:700;display:block;margin-bottom:7px;" id="regPhoneLbl">رقم الهاتف <span style="color:#f87171;">*</span></label>
           <div style="display:flex;gap:6px;direction:ltr;">
             <select id="regCountry" name="country" class="inp" style="flex:0 0 92px;padding:14px 4px 14px 22px;font-family:'Cairo',sans-serif;font-size:.78rem;cursor:pointer;background:rgba(255,255,255,.14);color:#fff;text-align:center;font-weight:700;appearance:none;-webkit-appearance:none;background-image:url('data:image/svg+xml;utf8,<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;10&quot; height=&quot;10&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;white&quot; stroke-width=&quot;3&quot; stroke-linecap=&quot;round&quot;><polyline points=&quot;6 9 12 15 18 9&quot;/></svg>');background-repeat:no-repeat;background-position:left 8px center;background-size:9px;"></select>
             <input type="tel" id="regPhone" name="username" placeholder="71 234 567" class="inp" dir="ltr" style="text-align:left;flex:1;font-size:1rem;font-weight:700;letter-spacing:1px;" inputmode="tel" autocomplete="username tel-national" required/>
           </div>
         </div>
-        <div style="margin-bottom:26px;">
-          <label for="regRef" style="color:rgba(255,255,255,.8);font-size:.8rem;font-weight:700;display:block;margin-bottom:7px;" id="regRefLbl">كود الإحالة <span style="color:rgba(255,255,255,.45);font-weight:500;font-size:.72rem;" id="regRefOpt">(اختياري — احصل على نقطة هدية)</span></label>
-          <input type="text" id="regRef" name="referral" placeholder="• • • •" maxlength="4" inputmode="numeric" pattern="[0-9]*" autocomplete="off" class="inp ref-input-pin" oninput="this.value=this.value.replace(/[^0-9]/g,'');"/>
+        <!-- ★ Gmail (مطلوب — يُربط بـ Google) ★ -->
+        <div style="margin-bottom:14px;">
+          <label style="color:rgba(255,255,255,.85);font-size:.8rem;font-weight:700;display:block;margin-bottom:7px;">حساب Gmail <span style="color:#f87171;">*</span></label>
+          <!-- زرّ الربط (يظهر قبل الربط) -->
+          <button type="button" id="regLinkGoogleBtn" onclick="linkGoogleForRegistration()" style="width:100%;background:#fff;color:#1f2937;border:none;border-radius:12px;padding:13px;font-size:.88rem;font-weight:800;cursor:pointer;font-family:'Cairo',sans-serif;display:flex;align-items:center;justify-content:center;gap:11px;box-shadow:0 4px 14px rgba(0,0,0,.2);transition:transform .15s;">
+            <svg width="20" height="20" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+              <path fill="#FFC107" d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 12.955 4 4 12.955 4 24s8.955 20 20 20 20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z"/>
+              <path fill="#FF3D00" d="M6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 16.318 4 9.656 8.337 6.306 14.691z"/>
+              <path fill="#4CAF50" d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238A11.91 11.91 0 0 1 24 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44z"/>
+              <path fill="#1976D2" d="M43.611 20.083H42V20H24v8h11.303a12.04 12.04 0 0 1-4.087 5.571l.003-.002 6.19 5.238C36.971 39.205 44 34 44 24c0-1.341-.138-2.65-.389-3.917z"/>
+            </svg>
+            <span>اضغط لربط حسابك بـ Google</span>
+          </button>
+          <!-- بطاقة Gmail المُربَط (تظهر بعد الربط) -->
+          <div id="regGmailLinked" style="display:none;background:linear-gradient(135deg,rgba(34,197,94,.15),rgba(22,163,74,.2));border:1.5px solid rgba(74,222,128,.5);border-radius:12px;padding:11px 13px;display:none;align-items:center;gap:10px;">
+            <div style="width:32px;height:32px;background:#16a34a;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;flex-shrink:0;">✓</div>
+            <div style="flex:1;min-width:0;">
+              <div style="color:#bbf7d0;font-size:.66rem;font-weight:700;">مرتبط بـ Google ✓</div>
+              <div id="regGmailValue" dir="ltr" style="color:#fff;font-size:.82rem;font-weight:800;word-break:break-all;text-align:left;"></div>
+            </div>
+            <button type="button" onclick="unlinkGoogleFromRegistration()" style="background:rgba(255,255,255,.15);color:#fff;border:none;border-radius:7px;padding:5px 10px;font-size:.7rem;font-weight:700;cursor:pointer;font-family:'Cairo',sans-serif;flex-shrink:0;">تغيير</button>
+          </div>
         </div>
-        <button type="submit" class="btn-enter">الدخول إلى المنصة ←</button>
+        <!-- ★ كود الإحالة (اختياري بوضوح) ★ -->
+        <div style="margin-bottom:22px;">
+          <label for="regRef" style="color:rgba(255,255,255,.6);font-size:.78rem;font-weight:700;display:flex;align-items:center;gap:6px;margin-bottom:7px;" id="regRefLbl">
+            <span>كود الإحالة</span>
+            <span style="background:rgba(251,191,36,.2);color:#fcd34d;font-size:.62rem;font-weight:800;padding:2px 8px;border-radius:8px;">اختياري — يمكنك تخطّيه</span>
+          </label>
+          <input type="text" id="regRef" name="referral" placeholder="اتركه فارغاً لو ليس لديك كود" maxlength="4" inputmode="numeric" pattern="[0-9]*" autocomplete="off" class="inp ref-input-pin" style="opacity:.85;" oninput="this.value=this.value.replace(/[^0-9]/g,'');"/>
+        </div>
+        <button type="submit" class="btn-enter">إنشاء الحساب / الدخول ←</button>
         </form>
         <p style="color:rgba(255,255,255,.38);font-size:.7rem;text-align:center;margin-top:13px;" id="regNote">بياناتك محفوظة على جهازك وفي السحابة</p>
       </div>
@@ -6951,21 +6965,23 @@ function validatePhoneByCountry(countryCode, localDigits){
   return { ok:true };
 }
 
+
 /* ══════════════════════════════════════════════════════════════════
-   ★ Google Sign-In Integration ★
+   ★ Google Sign-In v2 — تكامل مبسَّط مع نموذج التسجيل الموحَّد ★
    ──────────────────────────────────────────────────────────────────
-   الهدف:
-   - إتاحة تسجيل الدخول بحساب Google (مجاني، بلا حدود)
-   - مطابقة Gmail مع رقم الهاتف (الهاتف يبقى مطلوباً)
-   - حماية البيانات القديمة: لا نحذف أيّ معلومة
-   - إذا كان الـ Gmail مرتبطاً بحساب مسبقاً → دخول مباشر
-   - إذا لم يكن: نطلب رقم الهاتف لربط Gmail بحساب موجود أو إنشاء حساب جديد
+   التصميم الجديد:
+   - الطالب يملأ: الاسم + رقم الهاتف (مطلوبَين)
+   - يضغط زرّ "ربط بـ Google" → Google يربط الحساب → يعود للنموذج
+   - بطاقة خضراء تظهر بالبريد المُربَط
+   - يضغط "إنشاء الحساب" → تتمّ معالجة كلّ شيء معاً
+   - الحسابات القديمة بلا Gmail تستطيع الدخول بالاسم+الهاتف
+     ثمّ نقترح عليها ربط Gmail لاحقاً (Popup اختياري)
 ══════════════════════════════════════════════════════════════════ */
 
 var _gauthBusy = false;
-var _pendingGoogleData = null;  // بيانات Google المؤقتة قبل اكتمال الربط
+var _linkedGoogleData = null;  // بيانات Google المربوطة في هذه الجلسة (قبل إكمال التسجيل)
 
-// تنظيف الإيميل لاستخدامه كمفتاح آمن في Firebase (نُبدّل المحارف الخاصّة)
+// تحويل الإيميل إلى مفتاح آمن (لاحتياج Firebase keys بلا نقاط أو @)
 function _gmailToKey(email){
   return String(email||'').toLowerCase().trim()
     .replace(/\./g, '_DOT_')
@@ -6973,104 +6989,123 @@ function _gmailToKey(email){
     .replace(/[^a-z0-9_-]/g, '_');
 }
 
-// نقطة الدخول الرئيسية — يضغطها الطالب
-// تستخدم popup على الكمبيوتر و redirect على الموبايل (أكثر استقراراً)
-function signInWithGoogle(){
+// ★ يُستدعى من زرّ "اضغط لربط حسابك بـ Google" داخل النموذج ★
+function linkGoogleForRegistration(){
   if(_gauthBusy) return;
   _gauthBusy = true;
   SND.click && SND.click();
   showToast('جاري الاتصال بـ Google...','ok',2500);
 
-  // ★ اكتشف نوع الجهاز ★
   var ua = navigator.userAgent || '';
   var isMobile = /Mobi|Android|iPhone|iPad|iPod|Opera Mini|IEMobile/i.test(ua);
-  var isWebView = /wv|WebView/i.test(ua) || (/Android/i.test(ua) && !/Chrome/i.test(ua));
 
-  // على الموبايل/WebView → redirect مباشرة (أكثر استقراراً)
-  if(isMobile || isWebView){
-    try {
-      // احفظ علامة أنّنا في انتظار العودة من Google
-      sessionStorage.setItem('abc_google_redirecting', '1');
-    } catch(_){}
+  // احفظ الحقول الحالية في sessionStorage لاسترجاعها بعد redirect
+  try {
+    sessionStorage.setItem('abc_reg_draft', JSON.stringify({
+      name: (document.getElementById('regName')||{}).value || '',
+      phone: (document.getElementById('regPhone')||{}).value || '',
+      country: (document.getElementById('regCountry')||{}).value || '+961',
+      ref: (document.getElementById('regRef')||{}).value || ''
+    }));
+    sessionStorage.setItem('abc_google_action', 'register');
+  } catch(_){}
+
+  if(isMobile){
+    // الموبايل → redirect
     fbAuth.signInWithRedirect(googleProvider).catch(function(err){
       _gauthBusy = false;
-      try { sessionStorage.removeItem('abc_google_redirecting'); } catch(_){}
-      console.error('Redirect error:', err);
+      try { sessionStorage.removeItem('abc_google_action'); } catch(_){}
       showToast('تعذّر الاتصال بـ Google: '+(err.message||''),'err',5000);
     });
     return;
   }
 
-  // على الكمبيوتر → جرّب popup أولاً
+  // الكمبيوتر → popup
   fbAuth.signInWithPopup(googleProvider).then(function(result){
-    _handleGoogleSignInResult(result);
+    _gauthBusy = false;
+    _handleGoogleLinkResult(result);
   }).catch(function(err){
     _gauthBusy = false;
-    console.error('Popup error:', err.code, err.message);
-    if(err.code === 'auth/popup-closed-by-user' || err.code === 'auth/cancelled-popup-request'){
-      // أغلق المستخدم النافذة بنفسه — لا حاجة لرسالة خطأ مزعجة
-      return;
-    }
-    // فشل popup → جرّب redirect كاحتياط (popup blocked, internal error, etc.)
+    if(err.code === 'auth/popup-closed-by-user' || err.code === 'auth/cancelled-popup-request') return;
     if(err.code === 'auth/popup-blocked'
        || err.code === 'auth/internal-error'
        || err.code === 'auth/web-storage-unsupported'
        || err.code === 'auth/operation-not-supported-in-this-environment'){
       showToast('جاري التحويل إلى Google...','ok',2000);
-      try { sessionStorage.setItem('abc_google_redirecting', '1'); } catch(_){}
       fbAuth.signInWithRedirect(googleProvider).catch(function(e2){
-        showToast('تعذّر الاتصال بـ Google: '+(e2.message||''),'err',5000);
+        showToast('تعذّر الاتصال: '+(e2.message||''),'err',5000);
       });
       return;
     }
-    showToast('تعذّر تسجيل الدخول: '+(err.message||'خطأ غير معروف'),'err',5000);
+    showToast('تعذّر الاتصال: '+(err.message||''),'err',5000);
   });
 }
 
-// ★ معالجة نتيجة الدخول (من popup أو redirect) — نفس المنطق لكليهما ★
-function _handleGoogleSignInResult(result){
-  _gauthBusy = false;
-  if(!result || !result.user){
-    return; // لا نتيجة (مستخدم لم يكمل)
+// عالج نتيجة الربط (من popup أو redirect)
+function _handleGoogleLinkResult(result){
+  if(!result || !result.user || !result.user.email){
+    return; // مستخدم لم يكمل
   }
   var user = result.user;
-  if(!user.email){
-    showToast('تعذّر الحصول على بريد Google','err',4000);
-    return;
-  }
-  var googleData = {
+  _linkedGoogleData = {
     email: user.email,
     uid: user.uid,
     displayName: user.displayName || '',
     photoURL: user.photoURL || ''
   };
-  showToast('تمّ تأكيد '+user.email+' ✓','ok',2500);
-  // ابحث عن أيّ طالب مرتبط بهذا الإيميل
-  _findStudentByGmail(googleData.email, function(existingKey, existingData){
-    if(existingKey){
-      _loginViaLinkedGmail(existingKey, existingData, googleData);
-      return;
-    }
-    _pendingGoogleData = googleData;
-    _showGoogleLinkChoice(googleData);
-  });
+  // أظهر البطاقة الخضراء في النموذج
+  _showLinkedGoogleInForm(_linkedGoogleData);
+  SND.success && SND.success();
+  showToast('✓ تمّ ربط '+user.email,'ok',3500);
+  // اخرج من جلسة Auth لأنّ Gmail محفوظ في الذاكرة (نحتاج فقط القيمة)
+  // لا تخرج هنا — قد نحتاج الجلسة لاحقاً
 }
 
-// ★ يُستدعى عند تحميل الصفحة — يفحص إن كنّا عائدين من redirect ★
+// إظهار البطاقة الخضراء بالبريد المربوط
+function _showLinkedGoogleInForm(googleData){
+  var btn = document.getElementById('regLinkGoogleBtn');
+  var card = document.getElementById('regGmailLinked');
+  var valEl = document.getElementById('regGmailValue');
+  if(btn) btn.style.display = 'none';
+  if(card) card.style.display = 'flex';
+  if(valEl) valEl.textContent = googleData.email;
+  // إذا كان حقل الاسم فارغاً، عبّئ بالاسم من Google
+  var nameInp = document.getElementById('regName');
+  if(nameInp && !nameInp.value.trim() && googleData.displayName){
+    nameInp.value = googleData.displayName;
+  }
+}
+
+// إلغاء الربط (المستخدم يريد تغيير الإيميل)
+function unlinkGoogleFromRegistration(){
+  _linkedGoogleData = null;
+  var btn = document.getElementById('regLinkGoogleBtn');
+  var card = document.getElementById('regGmailLinked');
+  if(btn) btn.style.display = 'flex';
+  if(card) card.style.display = 'none';
+  // اقطع جلسة Firebase Auth (لتمكين اختيار حساب آخر)
+  fbAuth.signOut().catch(function(){});
+}
+
+// ★ يُستدعى عند تحميل الصفحة لمعالجة العودة من redirect ★
 function checkGoogleRedirectResult(){
-  // لو لم نكن في حالة redirect، لا فائدة من الفحص
-  var wasRedirecting = false;
-  try { wasRedirecting = (sessionStorage.getItem('abc_google_redirecting') === '1'); } catch(_){}
+  // انتظر حتى تتهيّأ Firebase تماماً
   fbAuth.getRedirectResult().then(function(result){
-    try { sessionStorage.removeItem('abc_google_redirecting'); } catch(_){}
-    if(result && result.user){
-      _handleGoogleSignInResult(result);
-    } else if(wasRedirecting){
-      // كنّا في انتظار عودة، لكن النتيجة فارغة (المستخدم ربما ألغى)
-      console.log('Redirect returned without user');
+    if(!result || !result.user) return;
+    var action = '';
+    try { action = sessionStorage.getItem('abc_google_action') || ''; } catch(_){}
+    try { sessionStorage.removeItem('abc_google_action'); } catch(_){}
+
+    if(action === 'link_existing'){
+      // جاء من Popup ربط Gmail بحساب قديم
+      _completeLinkToExistingAccount(result);
+      return;
     }
+    // الحالة الافتراضية: ربط في نموذج التسجيل
+    _handleGoogleLinkResult(result);
+    // استرجع بيانات النموذج التي حفظناها قبل redirect
+    _restoreRegistrationDraft();
   }).catch(function(err){
-    try { sessionStorage.removeItem('abc_google_redirecting'); } catch(_){}
     console.error('Redirect result error:', err);
     if(err.code === 'auth/account-exists-with-different-credential'){
       showToast('هذا الإيميل مرتبط بطريقة دخول مختلفة','err',5000);
@@ -7080,394 +7115,56 @@ function checkGoogleRedirectResult(){
   });
 }
 
-// نفّذ الفحص فور تحميل الصفحة (بعد تهيئة Firebase)
-if(typeof window !== 'undefined'){
-  window.addEventListener('DOMContentLoaded', function(){
-    // أعطِ الـ DOM لحظة للجاهزية ثم افحص
-    setTimeout(checkGoogleRedirectResult, 300);
-  });
+// استرجاع مسوّدة النموذج المحفوظة قبل redirect
+function _restoreRegistrationDraft(){
+  try {
+    var raw = sessionStorage.getItem('abc_reg_draft');
+    if(!raw) return;
+    var draft = JSON.parse(raw);
+    sessionStorage.removeItem('abc_reg_draft');
+    var nameInp = document.getElementById('regName');
+    var phoneInp = document.getElementById('regPhone');
+    var countryInp = document.getElementById('regCountry');
+    var refInp = document.getElementById('regRef');
+    if(nameInp && draft.name) nameInp.value = draft.name;
+    if(phoneInp && draft.phone) phoneInp.value = draft.phone;
+    if(countryInp && draft.country) countryInp.value = draft.country;
+    if(refInp && draft.ref) refInp.value = draft.ref;
+  } catch(e){
+    console.error('Restore draft error:', e);
+  }
 }
 
-// يبحث في DB عن طالب مرتبط بهذا Gmail (سواء عبر mapping أو حقل gmail في السجل)
-function _findStudentByGmail(email, callback){
+// يُستدعى من handleRegister عندما يكون Gmail مربوطاً
+// يبحث عن طالب بهذا Gmail (مباشرة في students، بدون mapping منفصل لتفادي rules issues)
+function _findStudentByGmailDirect(email, callback){
   var emailNorm = String(email||'').toLowerCase().trim();
   if(!emailNorm){ callback(null, null); return; }
-  var gmailKey = _gmailToKey(emailNorm);
-  // المسار السريع: ابحث في الـ mapping
-  db.ref('gmailToStudent/'+gmailKey).once('value', function(snap){
-    var studentKey = snap.val();
-    if(studentKey){
-      db.ref('students/'+studentKey).once('value', function(stSnap){
-        var stData = stSnap.val();
-        if(stData){
-          callback(studentKey, stData);
-        } else {
-          // mapping يُشير لطالب محذوف → نظّف
-          db.ref('gmailToStudent/'+gmailKey).remove();
-          callback(null, null);
-        }
-      });
-      return;
-    }
-    // المسار البطيء: امسح كلّ الطلاب (للحسابات التي رُبطت قبل وجود mapping)
-    db.ref('students').once('value', function(allSnap){
-      var foundKey = null, foundData = null;
-      allSnap.forEach(function(child){
-        var d = child.val();
-        if(d && d.gmail && String(d.gmail).toLowerCase().trim() === emailNorm){
-          foundKey = child.key; foundData = d;
-          return true; // كسر التكرار
-        }
-      });
-      if(foundKey){
-        // أنشئ mapping لتسريع المرات القادمة
-        db.ref('gmailToStudent/'+gmailKey).set(foundKey);
-      }
-      callback(foundKey, foundData);
-    });
-  });
-}
-
-// دخول طالب عبر Gmail مرتبط مسبقاً
-function _loginViaLinkedGmail(studentKey, studentData, googleData){
-  // حدّث بيانات Google الحديثة (الصورة قد تتغيّر)
-  var updates = {
-    gmailUid: googleData.uid,
-    gmailLastLoginAt: Date.now()
-  };
-  if(googleData.photoURL && googleData.photoURL !== studentData.gmailPhoto){
-    updates.gmailPhoto = googleData.photoURL;
-  }
-  if(googleData.displayName && googleData.displayName !== studentData.gmailDisplayName){
-    updates.gmailDisplayName = googleData.displayName;
-  }
-  db.ref('students/'+studentKey).update(updates).then(function(){
-    // حمّل بيانات الطالب الكاملة (محدّثة)
-    db.ref('students/'+studentKey).once('value', function(snap){
-      var fresh = snap.val() || studentData;
-      userData = fresh;
-      userData.fbKey = studentKey;
-      userData.lang = lang;
-      userData.dark = dark;
-      currentStudentKey = studentKey;
-      save(); SND.success();
-      showToast('مرحباً '+ (fresh.name||'').split(' ')[0] +'! 👋','ok',2500);
-      fadeReg(function(){
-        if(userData.isAdmin) showAdminPage();
-        else if(userData.status === 'pending') showPendingPage();
-        else showMain();
-      });
-    });
-  }).catch(function(e){
-    console.error('Login update error:', e);
-    showToast('تعذّر تحديث الجلسة: '+e.message,'err',4000);
-  });
-}
-
-// نموذج اختيار: حساب جديد أم ربط بحساب سابق؟
-function _showGoogleLinkChoice(googleData){
-  // أزل أيّ نموذج قديم
-  var existing = document.getElementById('googleChoiceOv');
-  if(existing) existing.remove();
-
-  var firstName = (googleData.displayName||'').split(' ')[0] || 'صديقي';
-  var photoSrc = googleData.photoURL || '';
-
-  var ov = document.createElement('div');
-  ov.id = 'googleChoiceOv';
-  ov.style.cssText = 'position:fixed;inset:0;background:rgba(15,23,42,.85);z-index:10000;display:flex;align-items:center;justify-content:center;padding:18px;font-family:Cairo,sans-serif;';
-  ov.innerHTML =
-    '<div style="background:#fff;border-radius:20px;max-width:420px;width:100%;padding:24px 22px;box-shadow:0 20px 60px rgba(0,0,0,.4);direction:rtl;">'+
-      '<div style="text-align:center;margin-bottom:18px;">'+
-        (photoSrc ? '<img src="'+photoSrc+'" alt="" style="width:64px;height:64px;border-radius:50%;border:3px solid #4338ca;margin:0 auto 10px;display:block;">' : '')+
-        '<div style="font-size:1.05rem;font-weight:900;color:#0f172a;margin-bottom:4px;">مرحباً '+escapeHtml(firstName)+'! 👋</div>'+
-        '<div style="font-size:.78rem;color:#64748b;direction:ltr;word-break:break-all;">'+escapeHtml(googleData.email)+'</div>'+
-      '</div>'+
-      '<div style="background:#fef3c7;border:1.5px solid #fbbf24;border-radius:11px;padding:11px 13px;margin-bottom:18px;font-size:.82rem;color:#92400e;font-weight:600;line-height:1.6;">'+
-        '⚠ هذا الحساب جديد على المنصّة. هل لديك حساب سابق بالاسم ورقم الهاتف؟'+
-      '</div>'+
-      '<button onclick="_googleChoiceExistingAccount()" style="width:100%;background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;border:none;border-radius:12px;padding:14px;font-size:.92rem;font-weight:800;cursor:pointer;font-family:Cairo,sans-serif;margin-bottom:9px;box-shadow:0 4px 12px rgba(34,197,94,.3);">'+
-        '✓ نعم، لدي حساب — اربطه بـ Google'+
-      '</button>'+
-      '<button onclick="_googleChoiceNewAccount()" style="width:100%;background:linear-gradient(135deg,#4338ca,#6366f1);color:#fff;border:none;border-radius:12px;padding:14px;font-size:.92rem;font-weight:800;cursor:pointer;font-family:Cairo,sans-serif;margin-bottom:9px;">'+
-        '🆕 حساب جديد — أنشئه الآن'+
-      '</button>'+
-      '<button onclick="_googleChoiceCancel()" style="width:100%;background:transparent;color:#64748b;border:1.5px solid #cbd5e1;border-radius:12px;padding:11px;font-size:.84rem;font-weight:700;cursor:pointer;font-family:Cairo,sans-serif;">'+
-        'إلغاء'+
-      '</button>'+
-    '</div>';
-  document.body.appendChild(ov);
-}
-
-function _googleChoiceCancel(){
-  var ov = document.getElementById('googleChoiceOv');
-  if(ov) ov.remove();
-  _pendingGoogleData = null;
-  // اقطع جلسة Auth حتى لا يبقى مسجّل دخولاً بشكل معلّق
-  fbAuth.signOut().catch(function(){});
-}
-
-// المسار 1: ربط بحساب سابق
-function _googleChoiceExistingAccount(){
-  var ov = document.getElementById('googleChoiceOv');
-  if(ov) ov.remove();
-  if(!_pendingGoogleData){ return; }
-  _showLinkExistingAccountForm(_pendingGoogleData);
-}
-
-// المسار 2: حساب جديد
-function _googleChoiceNewAccount(){
-  var ov = document.getElementById('googleChoiceOv');
-  if(ov) ov.remove();
-  if(!_pendingGoogleData){ return; }
-  _showNewAccountWithGoogleForm(_pendingGoogleData);
-}
-
-// نموذج ربط حساب سابق (يطلب الهاتف)
-function _showLinkExistingAccountForm(googleData){
-  var ov = document.createElement('div');
-  ov.id = 'googleLinkOv';
-  ov.style.cssText = 'position:fixed;inset:0;background:rgba(15,23,42,.85);z-index:10000;display:flex;align-items:center;justify-content:center;padding:18px;font-family:Cairo,sans-serif;';
-  ov.innerHTML =
-    '<div style="background:#fff;border-radius:20px;max-width:420px;width:100%;padding:24px 22px;direction:rtl;">'+
-      '<div style="text-align:center;margin-bottom:16px;">'+
-        '<div style="font-size:1.05rem;font-weight:900;color:#0f172a;margin-bottom:6px;">ربط حسابك السابق</div>'+
-        '<div style="font-size:.78rem;color:#64748b;line-height:1.6;">أدخل رقم الهاتف الذي سجّلت به سابقاً<br>سنربطه بحساب Google ('+escapeHtml(googleData.email)+')</div>'+
-      '</div>'+
-      '<label style="display:block;font-size:.8rem;font-weight:700;color:#475569;margin-bottom:6px;">رقم الهاتف</label>'+
-      '<input type="tel" id="googleLinkPhone" placeholder="+961 71 234 567" style="width:100%;padding:13px;font-size:1rem;font-weight:700;border:1.5px solid #cbd5e1;border-radius:11px;font-family:Cairo,sans-serif;direction:ltr;text-align:left;letter-spacing:1px;outline:none;margin-bottom:13px;"/>'+
-      '<button onclick="_executeLinkToExisting()" id="googleLinkExecBtn" style="width:100%;background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;border:none;border-radius:12px;padding:13px;font-size:.9rem;font-weight:800;cursor:pointer;font-family:Cairo,sans-serif;margin-bottom:8px;">'+
-        '🔗 ربط الحساب'+
-      '</button>'+
-      '<button onclick="_googleChoiceCancel()" style="width:100%;background:transparent;color:#64748b;border:1.5px solid #cbd5e1;border-radius:12px;padding:10px;font-size:.84rem;font-weight:700;cursor:pointer;font-family:Cairo,sans-serif;">'+
-        'إلغاء'+
-      '</button>'+
-    '</div>';
-  document.body.appendChild(ov);
-  setTimeout(function(){
-    var inp = document.getElementById('googleLinkPhone');
-    if(inp) inp.focus();
-  }, 100);
-}
-
-function _executeLinkToExisting(){
-  var phoneInput = (document.getElementById('googleLinkPhone')||{}).value || '';
-  phoneInput = phoneInput.trim();
-  if(!phoneInput || phoneInput.replace(/[^0-9]/g,'').length < 5){
-    showToast('رقم هاتف غير صالح','err'); return;
-  }
-  if(!_pendingGoogleData){ showToast('انتهت الجلسة','err'); return; }
-  var googleData = _pendingGoogleData;
-  var btn = document.getElementById('googleLinkExecBtn');
-  if(btn){ btn.disabled = true; btn.textContent = 'جاري الربط...'; }
-  // ابحث عن الحساب الموجود برقم الهاتف (نستخدم نفس منطق المطابقة الدقيقة + المرنة)
+  // ابحث مباشرة في students (أكثر موثوقية من mapping منفصل)
   db.ref('students').once('value', function(snap){
     var foundKey = null, foundData = null;
-    var pp = phoneInput.replace(/[^0-9]/g,'');
     snap.forEach(function(child){
-      var s = child.val();
-      var sp = (s.phone||'').replace(/[^0-9]/g,'');
-      var exact = (sp === pp);
-      var fuzzy = !exact && sp.length >= 6 && pp.length >= 6 && (sp.endsWith(pp) || pp.endsWith(sp));
-      if((exact || fuzzy) && !foundKey){
-        foundKey = child.key; foundData = s;
+      var d = child.val();
+      if(d && d.gmail && String(d.gmail).toLowerCase().trim() === emailNorm){
+        foundKey = child.key; foundData = d;
+        return true; // break
       }
     });
-    if(!foundKey){
-      if(btn){ btn.disabled = false; btn.textContent = '🔗 ربط الحساب'; }
-      showToast('لا يوجد حساب بهذا الرقم. تأكّد من الرقم أو سجّل حساباً جديداً','err',5500);
-      return;
-    }
-    // هل الحساب مرتبط بـ Gmail آخر؟
-    if(foundData.gmail && String(foundData.gmail).toLowerCase() !== String(googleData.email).toLowerCase()){
-      if(btn){ btn.disabled = false; btn.textContent = '🔗 ربط الحساب'; }
-      showToast('هذا الرقم مرتبط بحساب Gmail آخر ('+foundData.gmail.charAt(0)+'***). تواصل مع الأستاذ','err',6000);
-      return;
-    }
-    // هل هذا Gmail مرتبط بطالب آخر؟
-    _findStudentByGmail(googleData.email, function(otherKey){
-      if(otherKey && otherKey !== foundKey){
-        if(btn){ btn.disabled = false; btn.textContent = '🔗 ربط الحساب'; }
-        showToast('هذا الإيميل مرتبط بحساب آخر. تواصل مع الأستاذ','err',5500);
-        return;
-      }
-      // كلّ شيء سليم — اربط
-      var gmailKey = _gmailToKey(googleData.email);
-      var updates = {};
-      updates['students/'+foundKey+'/gmail'] = googleData.email;
-      updates['students/'+foundKey+'/gmailUid'] = googleData.uid;
-      updates['students/'+foundKey+'/gmailVerified'] = true;
-      updates['students/'+foundKey+'/gmailDisplayName'] = googleData.displayName || '';
-      updates['students/'+foundKey+'/gmailPhoto'] = googleData.photoURL || '';
-      updates['students/'+foundKey+'/gmailLinkedAt'] = Date.now();
-      updates['students/'+foundKey+'/gmailLastLoginAt'] = Date.now();
-      updates['gmailToStudent/'+gmailKey] = foundKey;
-      db.ref().update(updates).then(function(){
-        var ov = document.getElementById('googleLinkOv');
-        if(ov) ov.remove();
-        _pendingGoogleData = null;
-        // ادخل بالحساب المربوط
-        db.ref('students/'+foundKey).once('value', function(snap2){
-          var fresh = snap2.val();
-          userData = fresh; userData.fbKey = foundKey; userData.lang = lang; userData.dark = dark;
-          currentStudentKey = foundKey;
-          save(); SND.success();
-          showToast('✓ تمّ ربط حسابك بـ Google بنجاح','ok',3500);
-          fadeReg(function(){
-            if(userData.status === 'pending') showPendingPage();
-            else showMain();
-          });
-        });
-      }).catch(function(e){
-        if(btn){ btn.disabled = false; btn.textContent = '🔗 ربط الحساب'; }
-        showToast('تعذّر الربط: '+e.message,'err',5000);
-      });
-    });
+    callback(foundKey, foundData);
+  }, function(err){
+    console.error('Find student by gmail error:', err);
+    callback(null, null);
   });
 }
 
-// نموذج إنشاء حساب جديد (الاسم مُعبّأ من Google، يطلب الهاتف)
-function _showNewAccountWithGoogleForm(googleData){
-  var ov = document.createElement('div');
-  ov.id = 'googleNewOv';
-  ov.style.cssText = 'position:fixed;inset:0;background:rgba(15,23,42,.85);z-index:10000;display:flex;align-items:center;justify-content:center;padding:18px;font-family:Cairo,sans-serif;';
-  ov.innerHTML =
-    '<div style="background:#fff;border-radius:20px;max-width:420px;width:100%;padding:24px 22px;direction:rtl;max-height:90vh;overflow-y:auto;">'+
-      '<div style="text-align:center;margin-bottom:16px;">'+
-        '<div style="font-size:1.05rem;font-weight:900;color:#0f172a;margin-bottom:6px;">إنشاء حساب جديد</div>'+
-        '<div style="font-size:.78rem;color:#64748b;line-height:1.6;">سيُربط الحساب الجديد بـ<br><span style="direction:ltr;display:inline-block;font-weight:700;color:#0f172a;">'+escapeHtml(googleData.email)+'</span></div>'+
-      '</div>'+
-      '<label style="display:block;font-size:.8rem;font-weight:700;color:#475569;margin-bottom:6px;">الاسم الثلاثي</label>'+
-      '<input type="text" id="googleNewName" placeholder="مثال: محمد أحمد علي" value="'+escapeHtml(googleData.displayName||'')+'" style="width:100%;padding:13px;font-size:.95rem;font-weight:700;border:1.5px solid #cbd5e1;border-radius:11px;font-family:Cairo,sans-serif;margin-bottom:13px;outline:none;"/>'+
-      '<label style="display:block;font-size:.8rem;font-weight:700;color:#475569;margin-bottom:6px;">رقم الهاتف</label>'+
-      '<input type="tel" id="googleNewPhone" placeholder="+961 71 234 567" style="width:100%;padding:13px;font-size:1rem;font-weight:700;border:1.5px solid #cbd5e1;border-radius:11px;font-family:Cairo,sans-serif;direction:ltr;text-align:left;letter-spacing:1px;margin-bottom:13px;outline:none;"/>'+
-      '<label style="display:block;font-size:.8rem;font-weight:700;color:#475569;margin-bottom:6px;">كود الإحالة <span style="color:#94a3b8;font-weight:500;font-size:.72rem;">(اختياري)</span></label>'+
-      '<input type="text" id="googleNewRef" placeholder="• • • •" maxlength="4" inputmode="numeric" style="width:100%;padding:12px;font-size:1rem;font-weight:700;border:1.5px solid #cbd5e1;border-radius:11px;font-family:Cairo,sans-serif;direction:ltr;text-align:center;letter-spacing:8px;margin-bottom:15px;outline:none;" oninput="this.value=this.value.replace(/[^0-9]/g,\'\')"/>'+
-      '<button onclick="_executeCreateNewWithGoogle()" id="googleNewExecBtn" style="width:100%;background:linear-gradient(135deg,#4338ca,#6366f1);color:#fff;border:none;border-radius:12px;padding:13px;font-size:.9rem;font-weight:800;cursor:pointer;font-family:Cairo,sans-serif;margin-bottom:8px;">'+
-        '✓ إنشاء الحساب'+
-      '</button>'+
-      '<button onclick="_googleChoiceCancel()" style="width:100%;background:transparent;color:#64748b;border:1.5px solid #cbd5e1;border-radius:12px;padding:10px;font-size:.84rem;font-weight:700;cursor:pointer;font-family:Cairo,sans-serif;">'+
-        'إلغاء'+
-      '</button>'+
-    '</div>';
-  document.body.appendChild(ov);
-  setTimeout(function(){
-    var inp = document.getElementById('googleNewPhone');
-    if(inp) inp.focus();
-  }, 100);
-}
-
-function _executeCreateNewWithGoogle(){
-  var name = (document.getElementById('googleNewName')||{}).value || '';
-  var phoneIn = (document.getElementById('googleNewPhone')||{}).value || '';
-  var refCode = ((document.getElementById('googleNewRef')||{}).value || '').trim();
-  name = name.trim(); phoneIn = phoneIn.trim();
-  if(!name || name.split(' ').filter(Boolean).length < 2){
-    showToast('يرجى إدخال الاسم الثلاثي كاملاً','err'); return;
-  }
-  if(!phoneIn || phoneIn.replace(/[^0-9]/g,'').length < 5){
-    showToast('رقم هاتف غير صالح','err'); return;
-  }
-  if(refCode && !/^\d{4}$/.test(refCode)){
-    showToast('كود الإحالة يجب أن يكون 4 أرقام','err'); return;
-  }
-  if(!_pendingGoogleData){ showToast('انتهت الجلسة','err'); return; }
-  var googleData = _pendingGoogleData;
-  var phoneClean = phoneIn.replace(/[^0-9+]/g,'');
-  if(!/^\+/.test(phoneClean)) phoneClean = '+961' + phoneClean.replace(/^0+/,'');
-
-  var btn = document.getElementById('googleNewExecBtn');
-  if(btn){ btn.disabled = true; btn.textContent = 'جاري الإنشاء...'; }
-
-  // تحقّق: هل الهاتف موجود بحساب آخر؟
-  db.ref('students').once('value', function(snap){
-    var conflictKey = null, conflictData = null;
-    var refOwnerKey = null, refOwnerData = null;
-    var pp = phoneClean.replace(/[^0-9]/g,'');
-    var existingCodes = {};
-    snap.forEach(function(child){
-      var s = child.val();
-      if(s && s.refCode) existingCodes[s.refCode] = true;
-      var sp = (s.phone||'').replace(/[^0-9]/g,'');
-      var exact = (sp === pp);
-      var fuzzy = !exact && sp.length >= 6 && pp.length >= 6 && (sp.endsWith(pp) || pp.endsWith(sp));
-      if((exact || fuzzy) && !conflictKey){ conflictKey = child.key; conflictData = s; }
-      if(refCode && s.refCode === refCode && !refOwnerKey){ refOwnerKey = child.key; refOwnerData = s; }
-    });
-    if(conflictKey){
-      // هاتف موجود مسبقاً — هذا الطالب القديم لم يربط Gmail بعد
-      if(btn){ btn.disabled = false; btn.textContent = '✓ إنشاء الحساب'; }
-      showToast('هذا الرقم مسجّل مسبقاً. اختر "نعم، لدي حساب" لربطه بـ Google بدلاً من إنشاء حساب جديد','err',6500);
-      return;
-    }
-    if(refCode && !refOwnerKey){
-      if(btn){ btn.disabled = false; btn.textContent = '✓ إنشاء الحساب'; }
-      showToast('كود الإحالة غير صحيح','err'); return;
-    }
-    // ولّد كود إحالة جديداً للطالب الجديد
-    var newCode, attempts = 0;
-    do { newCode = generateRefCode(); attempts++; if(attempts > 200) break; } while(existingCodes[newCode]);
-
-    // أنشئ السجل الجديد
-    var nd = {
-      name: name,
-      phone: phoneClean,
-      firstEntry: Date.now(),
-      scores: {}, done: [], dailyCount: {}, watchSaved: {},
-      lang: lang, dark: dark, photoURL: googleData.photoURL || '',
-      status: 'pending',
-      refCode: newCode,
-      refPoints: 0,
-      referredBy: refOwnerKey || '',
-      referredByCode: refCode || '',
-      referredByName: refOwnerData ? (refOwnerData.name || '') : '',
-      referralRewardPaid: false,
-      team: {},
-      // ★ بيانات Google ★
-      gmail: googleData.email,
-      gmailUid: googleData.uid,
-      gmailVerified: true,
-      gmailDisplayName: googleData.displayName || '',
-      gmailPhoto: googleData.photoURL || '',
-      gmailLinkedAt: Date.now(),
-      gmailLastLoginAt: Date.now()
-    };
-    var newRef = db.ref('students').push(nd);
-    var newKey = newRef.key;
-    var gmailKey = _gmailToKey(googleData.email);
-    db.ref('gmailToStudent/'+gmailKey).set(newKey).then(function(){
-      // أضف المستخدم لفريق المُحيل (مُعلّق)
-      if(refOwnerKey){
-        db.ref('students/'+refOwnerKey+'/team/'+newKey).set({
-          name: name, phone: phoneClean, joinedAt: Date.now(), pending: true
-        });
-      }
-      var ov = document.getElementById('googleNewOv');
-      if(ov) ov.remove();
-      _pendingGoogleData = null;
-      nd.fbKey = newKey;
-      userData = nd;
-      currentStudentKey = newKey;
-      save(); SND.success();
-      showToast('✓ تمّ إنشاء حسابك بنجاح','ok',3500);
-      fadeReg(function(){ showPendingPage(); });
-    }).catch(function(e){
-      if(btn){ btn.disabled = false; btn.textContent = '✓ إنشاء الحساب'; }
-      showToast('تعذّر الإنشاء: '+e.message,'err',5000);
-    });
-  });
-}
-
-/* ──────────────────────────────────────────────────────────────────
-   Popup للحسابات القديمة: بعد تسجيل الدخول بالاسم+الهاتف،
-   إذا لم يكن Gmail مرتبطاً، نقترح ربطه (مرّة واحدة، اختياري).
-────────────────────────────────────────────────────────────────── */
+/* ══════════════════════════════════════════════════════════════════
+   Popup للحسابات القديمة (تسجّلت بدون Gmail) — يُقترح الربط
+══════════════════════════════════════════════════════════════════ */
 function maybeOfferGmailLinkAfterLogin(){
   if(!userData || !currentStudentKey) return;
   if(userData.isAdmin) return;
-  if(userData.gmail) return; // مرتبط أصلاً
-  if(userData.gmailPromptDismissed === true) return; // المستخدم رفض الاقتراح من قبل
-  // اظهر بعد ثانيتين من فتح الصفحة (لا نخنق الانتقال)
+  if(userData.gmail) return;
+  if(userData.gmailPromptDismissed === true) return;
   setTimeout(_showLinkGmailOfferPopup, 2200);
 }
 
@@ -7479,9 +7176,7 @@ function _showLinkGmailOfferPopup(){
   ov.innerHTML =
     '<div style="background:#fff;border-radius:20px;max-width:420px;width:100%;padding:24px 22px;direction:rtl;box-shadow:0 20px 60px rgba(0,0,0,.4);">'+
       '<div style="text-align:center;margin-bottom:14px;">'+
-        '<div style="width:64px;height:64px;background:linear-gradient(135deg,#4338ca,#6366f1);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;">'+
-          '<svg width="32" height="32" viewBox="0 0 48 48" fill="none"><path fill="#fff" d="M24 4C12.95 4 4 12.95 4 24c0 11.04 8.95 20 20 20s20-8.96 20-20C44 12.95 35.05 4 24 4zm0 6c2.21 0 4 1.79 4 4s-1.79 4-4 4-4-1.79-4-4 1.79-4 4-4zm0 28c-3.34 0-6.29-1.71-8-4.31.04-2.65 5.34-4.1 8-4.1 2.65 0 7.95 1.45 8 4.1-1.71 2.6-4.66 4.31-8 4.31z"/></svg>'+
-        '</div>'+
+        '<div style="width:64px;height:64px;background:linear-gradient(135deg,#4338ca,#6366f1);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:1.6rem;">📧</div>'+
         '<div style="font-size:1.05rem;font-weight:900;color:#0f172a;margin-bottom:6px;">سهّل دخولك مستقبلاً 🚀</div>'+
         '<div style="font-size:.82rem;color:#64748b;line-height:1.65;">اربط حسابك بـ Google لتدخل بنقرة واحدة من أيّ جهاز.<br>بياناتك ستبقى كما هي تماماً.</div>'+
       '</div>'+
@@ -7499,91 +7194,107 @@ function _showLinkGmailOfferPopup(){
 function _offerLinkLater(){
   var ov = document.getElementById('offerLinkGmailOv');
   if(ov) ov.remove();
-  // علّم أنّ المستخدم رفض → لا تعرض النافذة مجدداً
   if(currentStudentKey){
     db.ref('students/'+currentStudentKey+'/gmailPromptDismissed').set(true);
-    userData.gmailPromptDismissed = true;
-    save();
+    if(userData){ userData.gmailPromptDismissed = true; save(); }
   }
 }
 
 function _offerLinkExisting(){
-  // المستخدم وافق — افتح Google popup أو redirect
   var ov = document.getElementById('offerLinkGmailOv');
   if(ov) ov.remove();
-  if(!currentStudentKey){ return; }
-  var existingKey = currentStudentKey;
-  if(_gauthBusy) return;
+  if(!currentStudentKey || _gauthBusy) return;
   _gauthBusy = true;
   showToast('جاري الاتصال بـ Google...','ok',2500);
-
+  try {
+    sessionStorage.setItem('abc_google_action', 'link_existing');
+    sessionStorage.setItem('abc_link_target_key', currentStudentKey);
+  } catch(_){}
   var ua = navigator.userAgent || '';
   var isMobile = /Mobi|Android|iPhone|iPad|iPod|Opera Mini|IEMobile/i.test(ua);
-
-  // احفظ نية "ربط بحساب موجود" لكي نُعالج نتيجة redirect بشكل خاصّ
-  try {
-    sessionStorage.setItem('abc_google_linking_to', existingKey);
-  } catch(_){}
-
-  function processLink(result){
-    _gauthBusy = false;
-    if(!result || !result.user || !result.user.email){ return; }
-    var googleData = {
-      email: result.user.email, uid: result.user.uid,
-      displayName: result.user.displayName || '', photoURL: result.user.photoURL || ''
-    };
-    // تأكّد أنّ Gmail ليس مرتبطاً بحساب آخر
-    _findStudentByGmail(googleData.email, function(otherKey){
-      if(otherKey && otherKey !== existingKey){
-        showToast('هذا الإيميل مرتبط بحساب آخر. تواصل مع الأستاذ','err',5500);
-        return;
-      }
-      // اربط
-      var gmailKey = _gmailToKey(googleData.email);
-      var updates = {};
-      updates['students/'+existingKey+'/gmail'] = googleData.email;
-      updates['students/'+existingKey+'/gmailUid'] = googleData.uid;
-      updates['students/'+existingKey+'/gmailVerified'] = true;
-      updates['students/'+existingKey+'/gmailDisplayName'] = googleData.displayName || '';
-      updates['students/'+existingKey+'/gmailPhoto'] = googleData.photoURL || '';
-      updates['students/'+existingKey+'/gmailLinkedAt'] = Date.now();
-      updates['students/'+existingKey+'/gmailLastLoginAt'] = Date.now();
-      updates['gmailToStudent/'+gmailKey] = existingKey;
-      db.ref().update(updates).then(function(){
-        if(userData){
-          userData.gmail = googleData.email;
-          userData.gmailVerified = true;
-          userData.gmailPhoto = googleData.photoURL || '';
-          save();
-        }
-        SND.success();
-        showToast('✓ تمّ ربط Google بحسابك بنجاح','ok',3500);
-      }).catch(function(e){
-        showToast('تعذّر الربط: '+e.message,'err',5000);
-      });
-    });
-  }
-
   if(isMobile){
-    try { sessionStorage.setItem('abc_google_redirecting', '1'); } catch(_){}
     fbAuth.signInWithRedirect(googleProvider).catch(function(err){
       _gauthBusy = false;
-      try { sessionStorage.removeItem('abc_google_redirecting'); } catch(_){}
+      try { sessionStorage.removeItem('abc_google_action'); } catch(_){}
       showToast('تعذّر الاتصال: '+(err.message||''),'err',4000);
     });
     return;
   }
-  fbAuth.signInWithPopup(googleProvider).then(processLink).catch(function(err){
+  fbAuth.signInWithPopup(googleProvider).then(function(result){
+    _gauthBusy = false;
+    try { sessionStorage.removeItem('abc_google_action'); } catch(_){}
+    _completeLinkToExistingAccount(result);
+  }).catch(function(err){
     _gauthBusy = false;
     if(err.code === 'auth/popup-closed-by-user' || err.code === 'auth/cancelled-popup-request') return;
     if(err.code === 'auth/popup-blocked' || err.code === 'auth/internal-error'){
-      try { sessionStorage.setItem('abc_google_redirecting', '1'); } catch(_){}
       fbAuth.signInWithRedirect(googleProvider);
       return;
     }
     showToast('تعذّر الاتصال: '+(err.message||''),'err',4000);
   });
 }
+
+// ربط Gmail بالحساب الحالي (يُستدعى من popup أو redirect)
+function _completeLinkToExistingAccount(result){
+  if(!result || !result.user || !result.user.email){ return; }
+  var targetKey = currentStudentKey;
+  if(!targetKey){
+    try { targetKey = sessionStorage.getItem('abc_link_target_key'); } catch(_){}
+  }
+  try { sessionStorage.removeItem('abc_link_target_key'); } catch(_){}
+  if(!targetKey){ showToast('لا يوجد حساب مفتوح للربط','err',3500); return; }
+
+  var googleData = {
+    email: result.user.email, uid: result.user.uid,
+    displayName: result.user.displayName || '', photoURL: result.user.photoURL || ''
+  };
+  // تحقق ألاّ يكون مرتبطاً بحساب آخر
+  _findStudentByGmailDirect(googleData.email, function(otherKey){
+    if(otherKey && otherKey !== targetKey){
+      showToast('هذا الإيميل مرتبط بحساب آخر. تواصل مع الأستاذ','err',5500);
+      return;
+    }
+    var updates = {
+      gmail: googleData.email,
+      gmailUid: googleData.uid,
+      gmailVerified: true,
+      gmailDisplayName: googleData.displayName,
+      gmailPhoto: googleData.photoURL,
+      gmailLinkedAt: Date.now(),
+      gmailLastLoginAt: Date.now()
+    };
+    db.ref('students/'+targetKey).update(updates).then(function(){
+      if(userData){
+        userData.gmail = googleData.email;
+        userData.gmailVerified = true;
+        userData.gmailPhoto = googleData.photoURL;
+        save();
+      }
+      SND.success && SND.success();
+      showToast('✓ تمّ ربط Google بحسابك بنجاح','ok',3500);
+    }).catch(function(e){
+      showToast('تعذّر الربط: '+e.message,'err',5000);
+    });
+  });
+}
+
+// ★ يُستدعى عند تحميل الصفحة بعد تهيئة Firebase ★
+// نضمن أنّ fbAuth جاهز عبر setTimeout قصير
+function _runGoogleRedirectCheck(){
+  if(typeof fbAuth === 'undefined' || !fbAuth){
+    setTimeout(_runGoogleRedirectCheck, 250);
+    return;
+  }
+  checkGoogleRedirectResult();
+}
+if(typeof window !== 'undefined'){
+  // ابدأ الفحص بعد قليل لضمان جاهزية كل شيء
+  window.addEventListener('load', function(){
+    setTimeout(_runGoogleRedirectCheck, 500);
+  });
+}
+
 
 function handleRegister(){
   if(_regBusy) return;
@@ -7634,6 +7345,10 @@ function handleRegister(){
     save(); SND.success(); fadeReg(showAdminPage); return;
   }
 
+  // ★ تحقّق من وجود Gmail مُربَط في حال كان حساباً جديداً ★
+  // (للحسابات القديمة، Gmail اختياري — يمكنهم الدخول بدونه)
+  var hasLinkedGmail = !!(_linkedGoogleData && _linkedGoogleData.email);
+
   _regBusy = true;
   showToast('جاري التحقق...','ok');
 
@@ -7641,6 +7356,7 @@ function handleRegister(){
     _regBusy = false;
     var byPhone = null, byPhoneKey = null, dupName = false;
     var refOwnerKey = null, refOwnerData = null;
+    var conflictGmailKey = null;  // طالب آخر مرتبط بنفس Gmail
 
     snap.forEach(function(child){
       var s = child.val();
@@ -7656,7 +7372,23 @@ function handleRegister(){
       }
       if(!byPhone && (s.name||'').trim().toLowerCase() === name.toLowerCase()){ dupName = true; }
       if(refCode && s.refCode === refCode){ refOwnerKey = child.key; refOwnerData = s; }
+      // تحقّق من تضارب Gmail
+      if(hasLinkedGmail && s.gmail && String(s.gmail).toLowerCase() === String(_linkedGoogleData.email).toLowerCase()){
+        conflictGmailKey = child.key;
+      }
     });
+
+    // ★ تحقّق Gmail: إذا كان مربوطاً بحساب آخر (ليس نفس الحساب الذي نعمل عليه) ★
+    if(hasLinkedGmail && conflictGmailKey && conflictGmailKey !== byPhoneKey){
+      errInp('regPhone'); SND.error();
+      showToast(
+        (lang==='en'
+          ? 'This Gmail is already linked to another account. Use a different Gmail.'
+          : 'هذا الإيميل مرتبط بحساب آخر. استخدم Gmail مختلفاً أو تواصل مع الأستاذ.'),
+        'err', 6000
+      );
+      return;
+    }
 
     // مستخدم موجود — نتحقق من أن الاسم يتطابق (الرقم الواحد لحساب واحد)
     if(byPhoneKey){
@@ -7679,6 +7411,27 @@ function handleRegister(){
       userData = byPhone;
       userData.fbKey = byPhoneKey; userData.lang = lang; userData.dark = dark;
       currentStudentKey = byPhoneKey;
+
+      // ★ إذا ربط الطالب Gmail الآن أثناء الدخول، احفظه ★
+      if(hasLinkedGmail && !byPhone.gmail){
+        var linkUpdates = {
+          gmail: _linkedGoogleData.email,
+          gmailUid: _linkedGoogleData.uid,
+          gmailVerified: true,
+          gmailDisplayName: _linkedGoogleData.displayName || '',
+          gmailPhoto: _linkedGoogleData.photoURL || '',
+          gmailLinkedAt: Date.now(),
+          gmailLastLoginAt: Date.now()
+        };
+        db.ref('students/'+byPhoneKey).update(linkUpdates);
+        userData.gmail = _linkedGoogleData.email;
+        userData.gmailVerified = true;
+        userData.gmailPhoto = _linkedGoogleData.photoURL || '';
+      } else if(hasLinkedGmail && byPhone.gmail){
+        // الطالب لديه Gmail مربوط → حدّث آخر دخول فقط
+        db.ref('students/'+byPhoneKey+'/gmailLastLoginAt').set(Date.now());
+      }
+
       // تأكد من وجود كود إحالة (للمستخدمين القدامى)
       if(!userData.refCode){
         ensureRefCodeForExistingUser(byPhoneKey, function(){
@@ -7700,6 +7453,25 @@ function handleRegister(){
     if(dupName){
       errInp('regName'); SND.error();
       showToast('هذا الاسم مسجّل مسبقاً — استخدم رقم هاتفك للدخول','err'); return;
+    }
+
+    // ★ للحسابات الجديدة فقط: Gmail مطلوب ★
+    // (الحسابات القديمة تدخل دون Gmail عبر مطابقة الاسم+الهاتف أعلاه)
+    if(!hasLinkedGmail){
+      errInp('regPhone');
+      var btn = document.getElementById('regLinkGoogleBtn');
+      if(btn){
+        btn.style.boxShadow = '0 0 0 3px rgba(248,113,113,.5)';
+        setTimeout(function(){ btn.style.boxShadow = '0 4px 14px rgba(0,0,0,.2)'; }, 3000);
+      }
+      SND.error();
+      showToast(
+        (lang==='en'
+          ? 'Please link your Gmail account first (it is required for new accounts)'
+          : '⚠ يجب ربط حساب Gmail أولاً (مطلوب للحسابات الجديدة)'),
+        'err', 5500
+      );
+      return;
     }
 
     // التحقق من كود الإحالة إن أُدخل
@@ -7725,14 +7497,22 @@ function handleRegister(){
     var nd = {
       name:name, phone:phone, firstEntry:Date.now(),
       scores:{}, done:[], dailyCount:{}, watchSaved:{},
-      lang:lang, dark:dark, photoURL:'', status:'pending',
+      lang:lang, dark:dark, photoURL: _linkedGoogleData.photoURL || '', status:'pending',
       refCode: newCode,
       refPoints: 0,                                    // لا نقاط قبل القبول
       referredBy: refOwnerKey || '',
       referredByCode: refCode || '',
       referredByName: refOwnerData ? (refOwnerData.name || '') : '',
       referralRewardPaid: false,                        // هل تم منح المكافأة بعد؟
-      team: {}
+      team: {},
+      // ★ بيانات Google (مطلوبة للحسابات الجديدة) ★
+      gmail: _linkedGoogleData.email,
+      gmailUid: _linkedGoogleData.uid,
+      gmailVerified: true,
+      gmailDisplayName: _linkedGoogleData.displayName || '',
+      gmailPhoto: _linkedGoogleData.photoURL || '',
+      gmailLinkedAt: Date.now(),
+      gmailLastLoginAt: Date.now()
     };
     var nr = db.ref('students').push(nd);
     currentStudentKey = nr.key; nd.fbKey = nr.key; userData = nd;
